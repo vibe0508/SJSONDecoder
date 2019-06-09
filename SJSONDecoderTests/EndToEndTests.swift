@@ -14,7 +14,12 @@ class EndToEndTests: XCTestCase {
     var decoder: SJSONDecoder!
 
     override func setUp() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-dd-MM HH:mm:ss"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+
         decoder = SJSONDecoder()
+        decoder.dateDecodingStrategy = .withFormatter(formatter)
     }
 
     override func tearDown() {
@@ -46,6 +51,7 @@ class EndToEndTests: XCTestCase {
                 "integer": 8,
                 "decimal": 80.6,
                 "null": null,
+                "date": "2019-09-06 18:15:10",
                 "bool": true
             }
         """.data(using: .utf8)!
@@ -56,6 +62,7 @@ class EndToEndTests: XCTestCase {
             XCTAssertEqual(entry.double, 2.88)
             XCTAssertEqual(entry.integer, 8)
             XCTAssertEqual(entry.decimal, 80.6)
+            XCTAssertEqual(entry.date.timeIntervalSince1970.rounded(), 1560104110)
         } catch {
             XCTAssert(false, "Error during decoding: \(error)")
         }
@@ -70,7 +77,8 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
-                    "bool": true
+                    "bool": true,
+                    "date": "2019-09-06 18:15:10"
                 },
                 {
                     "string": "B",
@@ -78,7 +86,8 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
-                    "bool": true
+                    "bool": true,
+                    "date": "2019-09-06 18:15:10"
                 }
             ]
         """.data(using: .utf8)!
@@ -100,7 +109,8 @@ class EndToEndTests: XCTestCase {
                 "integer": 8,
                 "decimal": 80.6,
                 "null": null,
-                "bool": true
+                "bool": true,
+                "date": "2019-09-06 18:15:10"
             }
         """.data(using: .utf8)!
         do {
@@ -121,7 +131,8 @@ class EndToEndTests: XCTestCase {
                 "integer": 8,
                 "decimal": 80.6,
                 "null": null,
-                "bool": true
+                "bool": true,
+                "date": "2019-09-06 18:15:10"
             }
         """.data(using: .utf8)!
         do {
@@ -143,6 +154,7 @@ class EndToEndTests: XCTestCase {
                 "integer": "8",
                 "decimal": 80.6,
                 "null": null,
+                "date": "2019-09-06 18:15:10",
                 "bool": true
             }
         """.data(using: .utf8)!
@@ -166,6 +178,7 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
+                    "date": "2019-09-06 18:15:10",
                     "bool": true
                 },
                 {
@@ -174,6 +187,7 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
+                    "date": "2019-09-06 18:15:10",
                     "bool": true
                 }
             ]
@@ -197,6 +211,7 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
+                    "date": "2019-09-06 18:15:10",
                     "bool": true
                 },
                 {
@@ -205,6 +220,7 @@ class EndToEndTests: XCTestCase {
                     "integer": 8,
                     "decimal": 80.6,
                     "null": null,
+                    "date": "2019-09-06 18:15:10",
                     "bool": true
                 }
             ]

@@ -12,10 +12,12 @@ struct SingleValueContainer: CodingPathHolder {
 
     let codingPath: [CodingKey]
     let value: Value
+    let session: DecodingSession
 
-    init(codingPath: [CodingKey], value: Value) {
+    init(codingPath: [CodingKey], value: Value, session: DecodingSession) {
         self.codingPath = codingPath
         self.value = value
+        self.session = session
     }
 
     private func nonNullValue() throws -> Value {
@@ -42,7 +44,7 @@ struct SingleValueContainer: CodingPathHolder {
     }
 
     private func decoder() throws -> Decoder {
-        return ActualDecoder(codingPath: codingPath, value: value)
+        return ActualDecoder(codingPath: codingPath, session: session, value: value)
     }
 
     private func decimal() throws -> Decimal {
@@ -136,6 +138,8 @@ extension SingleValueContainer: SingleValueDecodingContainer {
     func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
         if type == Decimal.self {
             return try decimal() as! T
+        } else if type == Date.self {
+            return try session.dateDecodingStrategy.transform(self) as! T
         } else {
             return try T(from: decoder())
         }

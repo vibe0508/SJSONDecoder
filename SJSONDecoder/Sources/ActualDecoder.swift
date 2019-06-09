@@ -23,11 +23,14 @@ private extension Array {
 class ActualDecoder: Decoder {
     let codingPath: [CodingKey]
     let value: Value
+
+    let session: DecodingSession
     var userInfo: [CodingUserInfoKey : Any] = [:]
 
-    init(codingPath: [CodingKey], value: Value) {
+    init(codingPath: [CodingKey], session: DecodingSession, value: Value) {
         self.value = value
         self.codingPath = codingPath
+        self.session = session
     }
 
     func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
@@ -42,12 +45,12 @@ class ActualDecoder: Decoder {
             throw DecodingError.typeMismatch(Any.self, .init(codingPath: codingPath, debugDescription: ""))
         }
 
-        return KeyedDecodingContainer(KeyedContainer(codingPath: codingPath, dict: dict))
+        return KeyedDecodingContainer(KeyedContainer(codingPath: codingPath, dict: dict, session: session))
     }
 
     func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         if case .array(let values) = value {
-            return UnkeyedContainer(codingPath: codingPath, values: values)
+            return UnkeyedContainer(codingPath: codingPath, values: values, session: session)
         } else {
             throw DecodingError.typeMismatch(Any.self,
                                              .init(codingPath: codingPath, debugDescription: "Can't be represented with unkeyed container"))
@@ -55,6 +58,6 @@ class ActualDecoder: Decoder {
     }
 
     func singleValueContainer() throws -> SingleValueDecodingContainer {
-        return SingleValueContainer(codingPath: codingPath, value: value)
+        return SingleValueContainer(codingPath: codingPath, value: value, session: session)
     }
 }

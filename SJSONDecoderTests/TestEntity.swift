@@ -14,4 +14,5 @@ struct TestEntity: Decodable {
     let double: Double
     let decimal: Decimal
     let bool: Bool
+    let date: Date
 }

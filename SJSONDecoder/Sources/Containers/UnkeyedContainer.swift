@@ -11,12 +11,14 @@ import Foundation
 struct UnkeyedContainer: CodingPathHolder {
     let codingPath: [CodingKey]
     let values: [Value]
+    let session: DecodingSession
 
     private(set) var currentIndex: Int = 0
 
-    init(codingPath: [CodingKey], values: [Value]) {
+    init(codingPath: [CodingKey], values: [Value], session: DecodingSession) {
         self.codingPath = codingPath
         self.values = values
+        self.session = session
     }
 
     private var currentIndexKey: CodingKey {
@@ -61,7 +63,7 @@ struct UnkeyedContainer: CodingPathHolder {
     }
 
     private mutating func decoder() throws -> Decoder {
-        return try ActualDecoder(codingPath: codingPath + [currentIndexKey], value: nextValue(Any.self))
+        return try ActualDecoder(codingPath: codingPath + [currentIndexKey], session: session, value: nextValue(Any.self))
     }
 
     private mutating func decimal() throws -> Decimal {
@@ -169,6 +171,8 @@ extension UnkeyedContainer: UnkeyedDecodingContainer {
     mutating func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
         if type == Decimal.self {
             return try decimal() as! T
+        } else if type == Date.self {
+            return try session.dateDecodingStrategy.transform(decoder().singleValueContainer()) as! T
         } else {
             return try T(from: decoder())
         }

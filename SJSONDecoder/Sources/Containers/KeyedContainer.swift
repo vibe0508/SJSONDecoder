@@ -12,6 +12,7 @@ struct KeyedContainer<Key: CodingKey>: CodingPathHolder {
 
     let codingPath: [CodingKey]
     let dict: [String: Value]
+    let session: DecodingSession
 
     private func value(for key: Key) throws -> Value {
         guard let value = dict[key.stringValue] else {
@@ -51,7 +52,7 @@ struct KeyedContainer<Key: CodingKey>: CodingPathHolder {
     }
 
     private func decoder(for key: Key) throws -> Decoder {
-        return try ActualDecoder(codingPath: codingPath + [key], value: value(for: key))
+        return try ActualDecoder(codingPath: codingPath + [key], session: session, value: value(for: key))
     }
 
     private func decimal(for key: Key) throws -> Decimal {
@@ -159,6 +160,8 @@ extension KeyedContainer: KeyedDecodingContainerProtocol {
     func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
         if type == Decimal.self {
             return try decimal(for: key) as! T
+        } else if type == Date.self {
+            return try session.dateDecodingStrategy.transform(decoder(for: key).singleValueContainer()) as! T
         } else {
             return try T(from: decoder(for: key))
         }

@@ -9,6 +9,9 @@
 import Foundation
 
 public class SJSONDecoder {
+
+    public lazy var dateDecodingStrategy: DateDecodingStrategy = .timestamp
+
     public func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         guard let string = String(data: data, encoding: .utf8) else {
             throw DecodingError
@@ -16,8 +19,9 @@ public class SJSONDecoder {
                                      debugDescription: "Given data is not valid UTF-8 string"))
         }
 
+        let session = DecodingSession(dateDecodingStrategy: dateDecodingStrategy)
         var parser = Parser(string: string)
-        let decoder = try ActualDecoder(codingPath: [], value: parser.parse())
+        let decoder = try ActualDecoder(codingPath: [], session: session, value: parser.parse())
         return try T(from: decoder)
     }
 }
