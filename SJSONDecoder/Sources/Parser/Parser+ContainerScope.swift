@@ -49,7 +49,7 @@ extension Parser {
             }
         }
     }
-    
+
     struct ArrayScope: ParserContainerScope {
 
         private static let numbers = Set("0123456789")
@@ -60,7 +60,7 @@ extension Parser {
 
         init() {
             values = []
-            isSearchingValue = true
+            isSearchingValue = false
         }
 
         init(values: [Value], isSearchingValue: Bool) {
@@ -101,7 +101,7 @@ extension Parser {
         private enum Phase {
             private static let searchingKeyChars = Set(" \n\t\"}")
             private static let searchingColumnChars = Set(" \n\t:")
-            private static let searchingValueChars = Set(" \n\t\"tfn1234567890-+")
+            private static let searchingValueChars = Set(" \n\t\"tfn1234567890-+{[")
             private static let searchingCommaChars = Set(" \n\t,}")
 
             case searchingKey

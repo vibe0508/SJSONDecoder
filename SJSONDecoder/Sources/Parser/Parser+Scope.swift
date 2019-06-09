@@ -86,13 +86,9 @@ extension Parser {
         }
 
         func modify(with char: Character) -> ScopeModificationResult {
-            if !NumberScope.terminationChars.contains(char) && char != "." {
+            if !NumberScope.terminationChars.contains(char) {
                 return .modifiedScope(NumberScope(chars: chars + [char],
                                                   hasDot: hasDot))
-            } else if char == "." {
-                let appendingChars = Locale.current.decimalSeparator.flatMap { Array($0) } ?? ["."]
-                return .modifiedScope(NumberScope(chars: chars + appendingChars,
-                                                  hasDot: true))
             } else {
                 return .returnToParent(value: .number(String(chars)),
                                        repeatChar: true)
