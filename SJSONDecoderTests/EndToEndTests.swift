@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SJSONDecoder
+import SJSONDecoder
 
 class EndToEndTests: XCTestCase {
 

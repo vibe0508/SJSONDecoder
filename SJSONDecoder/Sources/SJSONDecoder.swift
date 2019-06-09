@@ -12,6 +12,8 @@ public class SJSONDecoder {
 
     public lazy var dateDecodingStrategy: DateDecodingStrategy = .timestamp
 
+    public init() {}
+
     public func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
         guard let string = String(data: data, encoding: .utf8) else {
             throw DecodingError
