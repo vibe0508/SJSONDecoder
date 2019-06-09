@@ -32,6 +32,7 @@
 		1118C46622AD72B40035C3D7 /* DateDecodingStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1118C46522AD72B40035C3D7 /* DateDecodingStrategy.swift */; };
 		1118C46822AD7F390035C3D7 /* DecodingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1118C46722AD7F390035C3D7 /* DecodingSession.swift */; };
 		1118C46E22AD81FD0035C3D7 /* MockSingleValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1118C46D22AD81FD0035C3D7 /* MockSingleValueContainer.swift */; };
+		1118C47022AD86FF0035C3D7 /* SJSONDecoder.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 1118C46F22AD86FF0035C3D7 /* SJSONDecoder.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		1118C46522AD72B40035C3D7 /* DateDecodingStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateDecodingStrategy.swift; sourceTree = "<group>"; };
 		1118C46722AD7F390035C3D7 /* DecodingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingSession.swift; sourceTree = "<group>"; };
 		1118C46D22AD81FD0035C3D7 /* MockSingleValueContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSingleValueContainer.swift; sourceTree = "<group>"; };
+		1118C46F22AD86FF0035C3D7 /* SJSONDecoder.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = SJSONDecoder.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 		1118C40622ACFA630035C3D7 = {
 			isa = PBXGroup;
 			children = (
+				1118C46F22AD86FF0035C3D7 /* SJSONDecoder.podspec */,
 				1118C41222ACFA630035C3D7 /* SJSONDecoder */,
 				1118C41D22ACFA630035C3D7 /* SJSONDecoderTests */,
 				1118C44822AD19980035C3D7 /* TestApp */,
@@ -353,6 +356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1118C47022AD86FF0035C3D7 /* SJSONDecoder.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
