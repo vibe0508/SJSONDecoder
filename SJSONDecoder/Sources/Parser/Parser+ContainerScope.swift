@@ -16,7 +16,7 @@ extension Parser {
     struct NoScope: ParserContainerScope {
         private static let allowedCharset = Set(" \n\t{[")
 
-        let value: Value?
+        private(set) var value: Value?
 
         init() {
             value = nil
@@ -53,10 +53,10 @@ extension Parser {
     struct ArrayScope: ParserContainerScope {
 
         private static let numbers = Set("0123456789")
-        private static let literalChars = Set("falsetruenull")
+        private static let literalChars = Set("ftn")
 
-        private let values: [Value]
-        private let isSearchingValue: Bool
+        private var values: [Value]
+        private var isSearchingValue: Bool
 
         init() {
             values = []
@@ -72,7 +72,7 @@ extension Parser {
             return !(isSearchingValue && (char == "," || char == "]")) && char != "}"
         }
 
-        func modify(with char: Character) -> ScopeModificationResult {
+        mutating func modify(with char: Character) -> ScopeModificationResult {
             if ArrayScope.literalChars.contains(char) {
                 return .newScope(LiteralScope(startingChar: char))
             } else if ArrayScope.numbers.contains(char) {
@@ -85,6 +85,9 @@ extension Parser {
                 return .newScope(ArrayScope())
             } else if char == "]" {
                 return .returnToParent(value: .array(values), repeatChar: false)
+            } else if char == "," {
+                isSearchingValue = true
+                return .noModification
             } else {
                 return .noModification
             }
@@ -126,8 +129,8 @@ extension Parser {
         private static let numbers = Set("-+1234567890")
         private static let literalStart = Set("ftn")
 
-        private let values: [String: Value]
-        private let phase: Phase
+        private var values: [String: Value]
+        private var phase: Phase
 
         init() {
             values = [:]
@@ -143,12 +146,13 @@ extension Parser {
             return phase.allowedChars.contains(char)
         }
 
-        func modify(with char: Character) -> ScopeModificationResult {
+        mutating func modify(with char: Character) -> ScopeModificationResult {
             switch (phase, char) {
             case (.searchingKey, "\""), (.searchingValue, "\""):
                 return .newScope(StringScope())
             case (.searchingColumn(let key), ":"):
-                return .modifiedScope(DictionaryScope(values: values, phase: .searchingValue(key: key)))
+                phase = .searchingValue(key: key)
+                return .noModification
             case (.searchingValue, _) where DictionaryScope.numbers.contains(char):
                 return .newScope(NumberScope(chars: [char]))
             case (.searchingValue, _) where DictionaryScope.literalStart.contains(char):
@@ -158,7 +162,8 @@ extension Parser {
             case (.searchingValue, "{"):
                 return .newScope(DictionaryScope())
             case (.searchingComma, ","):
-                return .modifiedScope(DictionaryScope(values: values, phase: .searchingKey))
+                phase = .searchingKey
+                return .noModification
             case (.searchingComma, "}"), (.searchingKey, "}"):
                 return .returnToParent(value: .dictionary(values), repeatChar: false)
             default:

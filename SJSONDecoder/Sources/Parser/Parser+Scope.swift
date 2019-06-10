@@ -9,13 +9,13 @@
 import Foundation
 
 protocol ParserScope {
-    func attemptModify(with char: Character) throws -> Parser.ScopeModificationResult
+    mutating func attemptModify(with char: Character) throws -> Parser.ScopeModificationResult
     func isValidChar(_ char: Character) -> Bool
-    func modify(with char: Character) -> Parser.ScopeModificationResult
+    mutating func modify(with char: Character) -> Parser.ScopeModificationResult
 }
 
 extension ParserScope {
-    func attemptModify(with char: Character) throws -> Parser.ScopeModificationResult {
+    mutating func attemptModify(with char: Character) throws -> Parser.ScopeModificationResult {
         guard isValidChar(char) else {
             try throwNotValidError()
         }
@@ -36,31 +36,29 @@ extension Parser {
     }
 
     struct StringScope: ParserScope {
-        private let chars: [Character]
-        private let isEscaping: Bool
+        private var chars: [Character]
+        private var isEscaping: Bool
 
         init() {
             chars = []
             isEscaping = false
         }
 
-        private init(chars: [Character], isEscaping: Bool) {
-            self.chars = chars
-            self.isEscaping = isEscaping
-        }
-
         func isValidChar(_ char: Character) -> Bool {
             return true
         }
 
-        func modify(with char: Character) -> ScopeModificationResult {
+        mutating func modify(with char: Character) -> ScopeModificationResult {
             switch (char, isEscaping) {
             case ("\"", false):
                 return .returnToParent(value: .string(String(chars)), repeatChar: false)
             case ("\\", false):
-                return .modifiedScope(StringScope(chars: chars, isEscaping: true))
+                isEscaping = true
+                return .noModification
             default:
-                return .modifiedScope(StringScope(chars: chars + [char], isEscaping: false))
+                isEscaping = false
+                chars.append(char)
+                return .noModification
             }
         }
     }
@@ -70,12 +68,11 @@ extension Parser {
         private static let numbers = Set("1234567890")
         private static let terminationChars = Set(" ,}]\n\t")
 
-        private let chars: [Character]
-        private let hasDot: Bool
+        private var chars: [Character]
+        private var hasDot: Bool = false
 
-        init(chars: [Character], hasDot: Bool = false) {
+        init(chars: [Character]) {
             self.chars = chars
-            self.hasDot = hasDot
         }
 
         func isValidChar(_ char: Character) -> Bool {
@@ -85,10 +82,14 @@ extension Parser {
                 || NumberScope.terminationChars.contains(char)
         }
 
-        func modify(with char: Character) -> ScopeModificationResult {
-            if !NumberScope.terminationChars.contains(char) {
-                return .modifiedScope(NumberScope(chars: chars + [char],
-                                                  hasDot: hasDot))
+        mutating func modify(with char: Character) -> ScopeModificationResult {
+            if char == "." {
+                hasDot = true
+                chars.append(char)
+                return .noModification
+            } else if !NumberScope.terminationChars.contains(char) {
+                chars.append(char)
+                return .noModification
             } else {
                 return .returnToParent(value: .number(String(chars)),
                                        repeatChar: true)
@@ -97,14 +98,10 @@ extension Parser {
     }
 
     struct LiteralScope: ParserScope {
-        private let string: String
+        private var string: String
 
         init(startingChar: Character) {
             string = String(startingChar)
-        }
-
-        private init(string: String) {
-            self.string = string
         }
 
         func isValidChar(_ char: Character) -> Bool {
@@ -115,23 +112,21 @@ extension Parser {
             fatalError()
         }
 
-        func attemptModify(with char: Character) throws -> ScopeModificationResult {
-            let newString = string + String(char)
+        mutating func attemptModify(with char: Character) throws -> ScopeModificationResult {
+            string.append(char)
 
             guard ["true", "false", "null"].contains(where: {
-                $0.hasPrefix(newString)
+                $0.hasPrefix(string)
             }) else {
                 try throwNotValidError()
             }
 
-            if newString.count < 4 {
-                return .modifiedScope(LiteralScope(string: newString))
-            } else if let bool = Bool(newString) {
+            if let bool = Bool(string) {
                 return .returnToParent(value: .boolean(bool), repeatChar: false)
-            } else if newString == "null" {
+            } else if string == "null" {
                 return .returnToParent(value: .null, repeatChar: false)
             } else {
-                return .modifiedScope(LiteralScope(string: newString))
+                return .noModification
             }
         }
     }
