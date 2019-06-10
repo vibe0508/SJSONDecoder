@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "SJSONDecoder"
-  spec.version      = "0.0.4"
+  spec.version      = "0.0.5"
   spec.summary      = "Custom Decoder for JSON"
 
   # This description is used to generate tags and improve search results.
@@ -36,7 +36,7 @@ Pod::Spec.new do |spec|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  spec.license      = { :type => 'BSD' }
+  spec.license      = { :type => 'MIT', :file => 'LICENSE.md' }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
