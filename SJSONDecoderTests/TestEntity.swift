@@ -16,3 +16,7 @@ struct TestEntity: Decodable {
     let bool: Bool
     let date: Date
 }
+
+struct JustString: Decodable {
+    let string: String
+}

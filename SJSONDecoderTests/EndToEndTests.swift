@@ -234,4 +234,11 @@ class EndToEndTests: XCTestCase {
             _ = try? defaultDecoder.decode([TestEntity].self, from: testData)
         }
     }
+    
+    func testNewlineEscaped() {
+        let path = Bundle(for: type(of: self)).path(forResource: "EscapedNewline", ofType: "json")!
+        let fixture = try! Data(contentsOf: URL(fileURLWithPath: path))
+        let result = try? SJSONDecoder().decode(JustString.self, from: fixture)
+        XCTAssertEqual(result?.string, "\n")
+    }
 }
