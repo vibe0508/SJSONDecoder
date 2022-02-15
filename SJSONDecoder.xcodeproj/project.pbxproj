@@ -33,6 +33,15 @@
 		1118C46822AD7F390035C3D7 /* DecodingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1118C46722AD7F390035C3D7 /* DecodingSession.swift */; };
 		1118C46E22AD81FD0035C3D7 /* MockSingleValueContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1118C46D22AD81FD0035C3D7 /* MockSingleValueContainer.swift */; };
 		1118C47022AD86FF0035C3D7 /* SJSONDecoder.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 1118C46F22AD86FF0035C3D7 /* SJSONDecoder.podspec */; };
+		3679EBA727BB406D001282AF /* EscapedReverseSolidus.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EB9E27BB406C001282AF /* EscapedReverseSolidus.json */; };
+		3679EBA827BB406D001282AF /* EscapedCarriageReturn.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EB9F27BB406C001282AF /* EscapedCarriageReturn.json */; };
+		3679EBA927BB406D001282AF /* EscapedQuotationMark.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA027BB406C001282AF /* EscapedQuotationMark.json */; };
+		3679EBAA27BB406D001282AF /* EscapedBackspace.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA127BB406C001282AF /* EscapedBackspace.json */; };
+		3679EBAB27BB406D001282AF /* EscapedLineFeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA227BB406C001282AF /* EscapedLineFeed.json */; };
+		3679EBAC27BB406D001282AF /* EscapedFormFeed.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA327BB406C001282AF /* EscapedFormFeed.json */; };
+		3679EBAD27BB406D001282AF /* EscapedSolidus.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA427BB406C001282AF /* EscapedSolidus.json */; };
+		3679EBAE27BB406D001282AF /* EscapedTab.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA527BB406C001282AF /* EscapedTab.json */; };
+		3679EBAF27BB406D001282AF /* EscapedUnicode.json in Resources */ = {isa = PBXBuildFile; fileRef = 3679EBA627BB406D001282AF /* EscapedUnicode.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +112,15 @@
 		1118C46722AD7F390035C3D7 /* DecodingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingSession.swift; sourceTree = "<group>"; };
 		1118C46D22AD81FD0035C3D7 /* MockSingleValueContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSingleValueContainer.swift; sourceTree = "<group>"; };
 		1118C46F22AD86FF0035C3D7 /* SJSONDecoder.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = SJSONDecoder.podspec; sourceTree = "<group>"; };
+		3679EB9E27BB406C001282AF /* EscapedReverseSolidus.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedReverseSolidus.json; sourceTree = "<group>"; };
+		3679EB9F27BB406C001282AF /* EscapedCarriageReturn.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedCarriageReturn.json; sourceTree = "<group>"; };
+		3679EBA027BB406C001282AF /* EscapedQuotationMark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedQuotationMark.json; sourceTree = "<group>"; };
+		3679EBA127BB406C001282AF /* EscapedBackspace.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedBackspace.json; sourceTree = "<group>"; };
+		3679EBA227BB406C001282AF /* EscapedLineFeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedLineFeed.json; sourceTree = "<group>"; };
+		3679EBA327BB406C001282AF /* EscapedFormFeed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedFormFeed.json; sourceTree = "<group>"; };
+		3679EBA427BB406C001282AF /* EscapedSolidus.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedSolidus.json; sourceTree = "<group>"; };
+		3679EBA527BB406C001282AF /* EscapedTab.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedTab.json; sourceTree = "<group>"; };
+		3679EBA627BB406D001282AF /* EscapedUnicode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = EscapedUnicode.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +184,7 @@
 		1118C41D22ACFA630035C3D7 /* SJSONDecoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				3679EB9B27BA9773001282AF /* fixtures */,
 				1118C44122AD14D30035C3D7 /* TestEntity.swift */,
 				1118C46D22AD81FD0035C3D7 /* MockSingleValueContainer.swift */,
 				1118C41E22ACFA630035C3D7 /* EndToEndTests.swift */,
@@ -229,6 +248,22 @@
 				1118C46222AD6E0E0035C3D7 /* Parser+ContainerScope.swift */,
 			);
 			path = Parser;
+			sourceTree = "<group>";
+		};
+		3679EB9B27BA9773001282AF /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				3679EBA027BB406C001282AF /* EscapedQuotationMark.json */,
+				3679EB9E27BB406C001282AF /* EscapedReverseSolidus.json */,
+				3679EBA427BB406C001282AF /* EscapedSolidus.json */,
+				3679EBA127BB406C001282AF /* EscapedBackspace.json */,
+				3679EBA327BB406C001282AF /* EscapedFormFeed.json */,
+				3679EBA227BB406C001282AF /* EscapedLineFeed.json */,
+				3679EB9F27BB406C001282AF /* EscapedCarriageReturn.json */,
+				3679EBA527BB406C001282AF /* EscapedTab.json */,
+				3679EBA627BB406D001282AF /* EscapedUnicode.json */,
+			);
+			path = fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,7 +391,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3679EBA727BB406D001282AF /* EscapedReverseSolidus.json in Resources */,
+				3679EBAF27BB406D001282AF /* EscapedUnicode.json in Resources */,
+				3679EBAE27BB406D001282AF /* EscapedTab.json in Resources */,
+				3679EBA927BB406D001282AF /* EscapedQuotationMark.json in Resources */,
 				1118C47022AD86FF0035C3D7 /* SJSONDecoder.podspec in Resources */,
+				3679EBAD27BB406D001282AF /* EscapedSolidus.json in Resources */,
+				3679EBAB27BB406D001282AF /* EscapedLineFeed.json in Resources */,
+				3679EBA827BB406D001282AF /* EscapedCarriageReturn.json in Resources */,
+				3679EBAA27BB406D001282AF /* EscapedBackspace.json in Resources */,
+				3679EBAC27BB406D001282AF /* EscapedFormFeed.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
