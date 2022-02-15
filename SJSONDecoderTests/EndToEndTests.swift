@@ -235,10 +235,46 @@ class EndToEndTests: XCTestCase {
         }
     }
     
-    func testNewlineEscaped() {
-        let path = Bundle(for: type(of: self)).path(forResource: "EscapedNewline", ofType: "json")!
+    func SJSONAssertString(of filename: String, equalsTo etalon: String, file: StaticString = #file, line: UInt = #line) {
+        let path = Bundle(for: type(of: self)).path(forResource: filename, ofType: "json")!
         let fixture = try! Data(contentsOf: URL(fileURLWithPath: path))
         let result = try? SJSONDecoder().decode(JustString.self, from: fixture)
-        XCTAssertEqual(result?.string, "\n")
+        XCTAssertEqual(result?.string, etalon, file: file, line: line)
+    }
+    
+    func testEscapedQuotationMark() {
+        SJSONAssertString(of: "EscapedQuotationMark", equalsTo: "\"")
+    }
+    
+    func testEscapedReverseSolidus() {
+        SJSONAssertString(of: "EscapedReverseSolidus", equalsTo: "\\")
+    }
+    
+    func testEscapedSolidus() {
+        SJSONAssertString(of: "EscapedSolidus", equalsTo: "/")
+    }
+    
+    func testEscapedBackspace() {
+        SJSONAssertString(of: "EscapedBackspace", equalsTo: "\u{8}")
+    }
+    
+    func testEscapedFormFeed() {
+        SJSONAssertString(of: "EscapedFormFeed", equalsTo: "\u{C}")
+    }
+    
+    func testEscapedLineFeed() {
+        SJSONAssertString(of: "EscapedLineFeed", equalsTo: "\n")
+    }
+    
+    func testEscapedCarriageReturn() {
+        SJSONAssertString(of: "EscapedCarriageReturn", equalsTo: "\r")
+    }
+    
+    func testEscapedTab() {
+        SJSONAssertString(of: "EscapedTab", equalsTo: "\t")
+    }
+    
+    func testEscapedUnicode() {
+        SJSONAssertString(of: "EscapedUnicode", equalsTo: "\u{FACE}")
     }
 }
